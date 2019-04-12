@@ -54,6 +54,16 @@ var server = http.createServer(app);
 const io = require('socket.io')(server);
 io.on('connection', (socket) => {
   console.log('Client connected...');
+  
+  socket.emit("newMessage", {
+    from: 'john',
+    text: "Hey. What it is going on?",
+    createdAt: Date.now()
+  });
+
+  socket.on("createMessage", (message) => {
+    console.log('Create message: ', message);
+  });
 
   socket.on("disconnect", () => {
     console.log('Client disconnected...');
