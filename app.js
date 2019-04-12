@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* jshint esversion: 6 */
 
 var createError = require('http-errors');
 var express = require('express');
@@ -48,6 +49,16 @@ app.set('port', port);
 
 // create HTTP server
 var server = http.createServer(app);
+
+// Socket.io logic
+const io = require('socket.io')(server);
+io.on('connection', (socket) => {
+  console.log('Client connected...');
+
+  socket.on("disconnect", () => {
+    console.log('Client disconnected...');
+  });
+});
 
 // listen on provided port, on all network interfaces
 server.listen(port, () => {
