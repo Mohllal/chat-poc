@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var {generateMessage} = require('./utils/message');
 
 var app = express();
 
@@ -54,15 +55,16 @@ var server = http.createServer(app);
 const io = require('socket.io')(server);
 io.on('connection', (socket) => {
   console.log('Client connected...');
-  
-  socket.emit("newMessage", {
-    from: 'john',
-    text: "Hey. What it is going on?",
-    createdAt: Date.now()
-  });
 
-  socket.on("createMessage", (message) => {
+  socket.emit("newMessage", generateMessage('Administrator', 'Welcome to our chat...'));
+  
+  socket.broadcast.emit("newMessage", generateMessage('Administrator', 'A new user joined the chat...'));
+
+  socket.on("createMessage", (message, callback) => {
     console.log('Create message: ', message);
+
+    io.emit("newMessage", generateMessage(message.from, message.text));
+    callback('Status: the message sent successfully!');
   });
 
   socket.on("disconnect", () => {
