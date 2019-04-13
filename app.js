@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var {generateMessage} = require('./utils/message');
+var { generateMessage, generateLocationMessage } = require('./utils/message');
 
 var app = express();
 
@@ -65,6 +65,12 @@ io.on('connection', (socket) => {
 
     io.emit("newMessage", generateMessage(message.from, message.text));
     callback('Status: the message sent successfully!');
+  });
+
+  socket.on('createLocationMessage', (location) => {
+    console.log('Create location message: ', location);
+
+    io.emit('newLocationMessage', generateLocationMessage('Administrator', location.latitude, location.longitude));
   });
 
   socket.on("disconnect", () => {
