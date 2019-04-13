@@ -41,7 +41,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-var debug = require('debug')('chat-poc:server');
+var debug = require('debug')('chat-PoC:server');
 var http = require('http');
 
 // get port from environment and store in Express.
