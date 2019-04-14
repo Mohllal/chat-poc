@@ -1,10 +1,13 @@
 /* jshint esversion: 6 */
 
+/* jshint esversion: 6 */
+const moment = require('moment');
+
 var generateMessage = (from, text) => {
     return {
         from,
         text,
-        createdAt: Date.now()
+        createdAt: moment().valueOf()
     };
 };
 
@@ -12,7 +15,7 @@ var generateLocationMessage = (from, latitude, longitude) => {
     return {
         from,
         url: `https://www.google.com/maps?q=${latitude},${longitude}`,
-        createdAt: Date.now()
+        createdAt: moment().valueOf()
     };
 };
 
