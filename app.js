@@ -9,6 +9,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var { generateMessage, generateLocationMessage } = require('./utils/message');
+var { isRealString } = require('./utils/validation');
 
 var app = express();
 
@@ -56,9 +57,24 @@ const io = require('socket.io')(server);
 io.on('connection', (socket) => {
   console.log('Client connected...');
 
-  socket.emit("newMessage", generateMessage('Administrator', 'Welcome to our chat...'));
+  socket.on("join", (params, callback) => {
+    if(!isRealString(params.displayName) || !isRealString(params.roomName)) {
+      callback('Display name and room name are not valid');
+    }
+    else {
+      // io.emit() --> io.to(room).emit()
+      // socket.broadcast.emit() ---> socket.broadcast.to(room).emit()
+      // socket.emit() ---> socket.to(room).emit()
+
+      socket.join(params.roomName);
+      socket.emit("newMessage", generateMessage('Administrator', 'Welcome to our chat...'));
+      socket.broadcast.to(params.roomName).emit("newMessage", generateMessage('Administrator', `${params.displayName} joined the chat...`));
+
+      callback();
+    }
+  });
+
   
-  socket.broadcast.emit("newMessage", generateMessage('Administrator', 'A new user joined the chat...'));
 
   socket.on("createMessage", (message, callback) => {
     console.log('Create message: ', message);

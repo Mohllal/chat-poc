@@ -22,6 +22,17 @@ function scrollToBottom() {
 
 socket.on("connect", () => {
     console.log('Connected successfully');
+
+    var params = jQuery.deparam(window.location.search);
+    socket.emit('join', params, (error) => {
+        if (error) {
+            alert(error);
+            window.location.href = "/";
+        }
+        else {
+            console.log("Successfully join the room!");
+        }
+    });
 });
 
 socket.on("disconnect", () => {

@@ -10,7 +10,7 @@
         <div class="chat__footer">
             <form id="message-form" method="POST">
                 <input id="message" name="message" type="text" placeholder="Enter your message here.." autofocus
-                    autocomplete="off" />
+                    autocomplete="off" required/>
                 <button>Send message</button>
             </form>
 
@@ -18,3 +18,10 @@
         </div>
     </div>
 </body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/javascripts/jquery.min.js"></script>
+<script src="/javascripts/moment.js"></script>
+<script src="/javascripts/mustache.js"></script>
+<script src="/javascripts/deparam.js"></script>
+<script src="/javascripts/chat.js"></script>
