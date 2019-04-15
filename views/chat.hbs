@@ -1,0 +1,20 @@
+<body class="chat">
+    <div class="chat__sidebar">
+        <h3>People</h3>
+        <div id="users"></div>
+    </div>
+
+    <div class="chat__main">
+        <ol id="messages" class="chat__messages"></ol>
+
+        <div class="chat__footer">
+            <form id="message-form" method="POST">
+                <input id="message" name="message" type="text" placeholder="Enter your message here.." autofocus
+                    autocomplete="off" />
+                <button>Send message</button>
+            </form>
+
+            <button id="send-location">Send location</button>
+        </div>
+    </div>
+</body>

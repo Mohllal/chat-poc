@@ -3,7 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Chat-PoC' });
+  res.render('index', { title: 'Join | Chat-PoC' });
+});
+
+/* GET chat page. */
+router.get('/chat', function(req, res, next) {
+  res.render('chat', { title: 'Chat | Chat-PoC' });
 });
 
 module.exports = router;

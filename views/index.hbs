@@ -1,17 +1,20 @@
-<div class="chat__sidebar">
-    <h3>People</h3>
-    <div id="users"></div>
-</div>
-
-<div class="chat__main">
-    <ol id="messages" class="chat__messages"></ol>
-
-    <div class="chat__footer">
-        <form id="message-form" method="POST">
-            <input id="message" name="message" type="text" placeholder="Enter your message here.." autofocus autocomplete="off"/>
-            <button>Send message</button>
+<body class="centered-form">
+    <div class="centered-form__form">
+        <form action="/chat">
+            <div class="form-field">
+                <h3>Join a chat</h3>
+            </div>
+            <div class="form-field">
+                <label>Display name</label>
+                <input type="text" name="displayName" autofocus>
+            </div>
+            <div class="form-field">
+                <label>Room name</label>
+                <input type="text" name="roomName" >
+            </div>
+            <div class="form-field">
+                <button>Join</button>
+            </div>
         </form>
-
-        <button id="send-location">Send location</button>
     </div>
-</div>
+</body>
