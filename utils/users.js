@@ -51,6 +51,13 @@ class Users {
         var usersNames = filteredUsers.map((user) => user.name);
         return usersNames;
     }
+
+    // return unique rooms names
+    getRoomsList() {
+        var roomsNames = this.users.map((user) => user.room);
+        var filteredRooms = [...new Set(roomsNames)];
+        return filteredRooms;
+    }
 }
 
 module.exports = { Users };

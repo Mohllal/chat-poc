@@ -82,7 +82,7 @@ socket.on('updateUsersList', (users) => {
 
     $.get('/templates/templates.html', function(templates) {
         // fetch the <script /> block from the loaded external
-        // template file which contains the message-template template.
+        // template file which contains the user-template template.
         var template = $(templates).filter('#user-template').html();
         Mustache.parse(template);
         

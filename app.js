@@ -61,6 +61,8 @@ const io = require('socket.io')(server);
 io.on('connection', (socket) => {
   console.log('Client connected...');
 
+  io.emit("updateRoomsDropDown", users.getRoomsList());
+
   socket.on("join", (params, callback) => {
     if (!isRealString(params.displayName) || !isRealString(params.roomName)) {
       return callback('Display name and room name are not valid');
@@ -79,6 +81,7 @@ io.on('connection', (socket) => {
       users.removeUser(socket.id);
       users.addUser(socket.id, params.displayName, params.roomName)
       io.to(params.roomName).emit('updateUsersList', users.getUsersList(params.roomName));
+      io.emit("updateRoomsDropDown", users.getRoomsList());
       
       socket.emit("newMessage", generateMessage('Administrator', 'Welcome to our chat...'));
       socket.broadcast.to(params.roomName).emit("newMessage", generateMessage('Administrator', `${params.displayName} joined the chat...`));

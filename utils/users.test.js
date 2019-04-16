@@ -96,9 +96,15 @@ describe('Users class-> utils/users.js', () => {
     });
 
     it('should not remove user with id "yui98bbg56yr2ert"', () => {
-    var user = users.removeUser('yui98bbg56yr2ert');
+        var user = users.removeUser('yui98bbg56yr2ert');
 
-    expect(user).toBeUndefined();
+        expect(user).toBeUndefined();
     });
+
+    it('should return unique rooms names', () => {
+        var roomsNames = users.getRoomsList();
+
+        expect(roomsNames).toEqual(['Socket.io Course', 'React.js Course', 'Node.js Course']);
     });
+});
 
