@@ -62,14 +62,18 @@ io.on('connection', (socket) => {
   console.log('Client connected...');
 
   socket.on("join", (params, callback) => {
-    if(!isRealString(params.displayName) || !isRealString(params.roomName)) {
+    if (!isRealString(params.displayName) || !isRealString(params.roomName)) {
       return callback('Display name and room name are not valid');
+    }
+    else if (users.getUserByNameInRoom(params.roomName, params.displayName)) {
+      return callback('This display name is not available, try another one!');
     }
     else {
       // io.emit() --> io.to(room).emit()
       // socket.broadcast.emit() ---> socket.broadcast.to(room).emit()
       // socket.emit() ---> socket.to(room).emit()
 
+      params.roomName = params.roomName.toLowerCase();
       socket.join(params.roomName);
       
       users.removeUser(socket.id);

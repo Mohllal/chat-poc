@@ -30,12 +30,24 @@ describe('Users class-> utils/users.js', () => {
         var user = {
             id: '32crttyfgvg42',
             name: 'John',
-            room: 'Socket.io'
+            room: 'Socket.io Course'
         };
 
         users.addUser(user.id, user.name, user.room);
 
         expect(users.users).toEqual([user]);
+    });
+
+    it('should not add a new user', () => {
+        var user = {
+            id: '32crttyfgvg42',
+            name: 'John',
+            room: 'Socket.io Course'
+        };
+
+        var result = users.addUser(user.id, user.name, user.room);
+
+        expect(result).toBeFalsy();
     });
 
     it('should return names for "Node.js Course" room', () => {
@@ -58,6 +70,18 @@ describe('Users class-> utils/users.js', () => {
 
     it('should not find user with id "yui98bbg56yr2ert"', () => {
         var user = users.getUser('yui98bbg56yr2ert');
+
+        expect(user).toBeUndefined();
+    });
+
+    it('should find user with name "John"', () => {
+        var user = users.getUserByNameInRoom('Socket.io Course', 'John');
+
+        expect(user.name).toEqual('John');
+    });
+
+    it('should not find user with name "Mohllal"', () => {
+        var user = users.getUserByNameInRoom('Socket.io Course', 'Mohllal');
 
         expect(user).toBeUndefined();
     });
