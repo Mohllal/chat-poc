@@ -11,6 +11,10 @@ var indexRouter = require('./routes/index');
 var { generateMessage, generateLocationMessage } = require('./utils/message');
 var { isRealString } = require('./utils/validation');
 
+var { Users } = require('./utils/users');
+
+var users = new Users();
+
 var app = express();
 
 // view engine setup
@@ -59,7 +63,7 @@ io.on('connection', (socket) => {
 
   socket.on("join", (params, callback) => {
     if(!isRealString(params.displayName) || !isRealString(params.roomName)) {
-      callback('Display name and room name are not valid');
+      return callback('Display name and room name are not valid');
     }
     else {
       // io.emit() --> io.to(room).emit()
@@ -67,14 +71,17 @@ io.on('connection', (socket) => {
       // socket.emit() ---> socket.to(room).emit()
 
       socket.join(params.roomName);
+      
+      users.removeUser(socket.id);
+      users.addUser(socket.id, params.displayName, params.roomName)
+      io.to(params.roomName).emit('updateUsersList', users.getUsersList(params.roomName));
+      
       socket.emit("newMessage", generateMessage('Administrator', 'Welcome to our chat...'));
       socket.broadcast.to(params.roomName).emit("newMessage", generateMessage('Administrator', `${params.displayName} joined the chat...`));
 
       callback();
     }
   });
-
-  
 
   socket.on("createMessage", (message, callback) => {
     console.log('Create message: ', message);
@@ -90,6 +97,13 @@ io.on('connection', (socket) => {
   });
 
   socket.on("disconnect", () => {
+    var user = users.removeUser(socket.id);
+    
+    if(user) {
+      io.to(user.room).emit('updateUsersList', users.getUsersList(user.room));
+      io.to(user.room).emit("newMessage", generateMessage('Administrator', `${user.name} left the chat...`));
+    }
+
     console.log('Client disconnected...');
   });
 });

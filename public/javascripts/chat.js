@@ -19,6 +19,9 @@ function scrollToBottom() {
     }
 }
 
+/*
+** Socket.io logic goes here ..
+*/
 
 socket.on("connect", () => {
     console.log('Connected successfully');
@@ -72,6 +75,25 @@ socket.on("newLocationMessage", (message) => {
 
         scrollToBottom();
         console.log('New location message: ', message);
+    });
+});
+
+socket.on('updateUsersList', (users) => {
+
+    $.get('/templates/templates.html', function(templates) {
+        // fetch the <script /> block from the loaded external
+        // template file which contains the message-template template.
+        var template = $(templates).filter('#user-template').html();
+        Mustache.parse(template);
+        
+        var ol = jQuery('<ol></ol>');
+        users.forEach((userName) => {
+            ol.append(Mustache.render(template, { name: userName }));
+        });
+        console.log(ol);
+        jQuery('#users').html(ol);
+
+        console.log('Updating users lists: ', users);
     });
 });
 
