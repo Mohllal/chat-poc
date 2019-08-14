@@ -21,3 +21,5 @@ npm install
 ```shell
 npm start
 ```
+### License:
+This software is licensed under the [MIT License](https://opensource.org/licenses/MIT).
