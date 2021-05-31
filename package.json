@@ -21,7 +21,7 @@
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "expect": "^24.7.1",
+    "expect": "^27.0.2",
     "mocha": "^6.1.3"
   }
 }
